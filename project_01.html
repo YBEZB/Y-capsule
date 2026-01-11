@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Proyecto 01</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- GOOGLE FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    /* ===== RESET ===== */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body, html { width: 100%; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
+
+    /* ===== VARIABLES DE COLOR ===== */
+    :root {
+      --bg: #0b0b0b;
+      --fg: #eaeaea;
+      --muted: #8a8a8a;
+      --primary: #6600ff;
+      --yellow: #ffee00;
+    }
+
+    body { background: var(--bg); color: var(--fg); }
+
+    h1,h2,h3 { font-weight: 800; }
+    p { line-height: 1.7; color: var(--muted); }
+    a { text-decoration: none; color: inherit; }
+
+    section { padding: 100px 10%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+
+/* Submenú de Proyectos */
+.to_menu li a {
+  font-size: 1rem;          /* Más pequeño que los items principales */
+  font-weight: 400;
+  color: var(--fg);         /* Color normal */
+  transition: color 0.3s;   /* Transición suave al pasar el cursor */
+}
+
+.to_menu li a:hover {
+  color: var(--yellow);     /* Cambia a amarillo al pasar el cursor */
+}
+
+    /* ===== MENU TOGGLE ===== */
+    .menu-toggle {
+      position: fixed;
+      top: 25px;
+      left: 25px;
+      width: 50px;
+      height: 50px;
+      border: 1px solid var(--muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 100;
+    }
+
+    .menu-toggle span {
+      width: 22px;
+      height: 2px;
+      background: var(--fg);
+      position: relative;
+      transition: all 0.3s;
+    }
+
+    .menu-toggle span::before,
+    .menu-toggle span::after {
+      content: "";
+      position: absolute;
+      width: 22px;
+      height: 2px;
+      background: var(--fg);
+      left: 0;
+      transition: all 0.3s;
+    }
+    .menu-toggle span::before { top: -7px; }
+    .menu-toggle span::after { top: 7px; }
+
+    .menu-toggle.active span { background: transparent; }
+    .menu-toggle.active span::before { transform: rotate(45deg) translate(5px,5px); top:0; }
+    .menu-toggle.active span::after { transform: rotate(-45deg) translate(5px,-5px); top:0; }
+
+    /* ===== NAV ===== */
+    nav {
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100vh;
+      background: var(--bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.8s cubic-bezier(.77,0,.18,1);
+      z-index: 90;
+    }
+
+    nav.active { left: 0; }
+
+    nav ul { list-style: none; text-align: center; }
+    nav li {
+      font-size: clamp(2rem, 6vw, 5rem);
+      font-weight: 800;
+      margin: 20px 0;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    nav li:hover { color: var(--muted); }
+
+    /* Contenedor de menú principal */
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Items principales */
+nav li {
+  font-size: clamp(2rem, 6vw, 5rem);
+  font-weight: 800;
+  margin: 20px 0;
+  cursor: pointer;
+  position: relative; /* IMPORTANTE para submenú relativo */
+  transition: color 0.3s;
+}
+
+nav li:hover {
+  color: var(--muted);
+}
+
+/* Submenú “Proyectos” */
+.to_menu {
+  display: none;               /* Oculto por defecto */
+  position: relative;          /* Para que no se salga del contenedor */
+  margin-top: 10px;
+  padding: 5px 10px;
+  background: var(--bg);
+  border-left: 3px solid var(--red); /* Banda de acento */
+  list-style: none;
+  z-index: 100;
+}
+
+.to_menu li {
+  font-size: 1.2rem;           /* Más pequeño que item principal */
+  font-weight: 400;
+  padding: 5px 0;
+  margin: 0;
+}
+
+/* Hover del item principal muestra el submenú */
+.has-submenu:hover .to_menu {
+  display: block;
+}
+
+/* Opcional: hover en sub-items */
+.to_menu li:hover {
+  color: var(--yellow);
+}
+
+    /* ===== HERO ===== */
+    .hero {
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      color: white;
+    }
+
+    .hero video {
+      position: absolute;
+      top:0; left:0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
+    .hero .overlay {
+      position: absolute;
+      top:0; left:0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 0;
+    }
+
+    .hero .content { position: relative; z-index: 1; max-width: 900px; }
+    .hero h1 { font-size: clamp(3rem, 7vw, 5rem); margin-bottom: 20px; }
+    .hero p { font-size: 1.5rem; }
+    .btn { display: inline-block; padding: 12px 30px; background: var(--primary); color:#fff; border-radius:5px; margin-top:20px; transition: background 0.3s; }
+    .btn:hover { background:#5500cc; }
+
+    /* ===== FEATURES ===== */
+    .section-title { font-size:2.5rem; margin-bottom:40px; text-align:center; }
+    .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:40px; }
+    .feature-card { background:#141414; padding:30px; border-radius:10px; transition: transform 0.3s; }
+    .feature-card:hover { transform: translateY(-10px); }
+    .feature-card h3 { margin-bottom:15px; color:var(--primary); }
+
+    /* ===== FOOTER ===== */
+    footer { text-align:center; padding:50px 10%; color:var(--muted); background:#0a0a0a; font-size:0.9rem; }
+  </style>
+</head>
+<body>
+
+  <!-- MENU TOGGLE -->
+  <div class="menu-toggle" onclick="toggleMenu()"><span></span></div>
+
+  <!-- NAV -->
+  <nav id="menu">
+   <ul>
+  <li onclick="goTo('about')">Sobre mí</li>
+  <li class="has-submenu">
+    Proyectos
+    <ul class="to_menu">
+      <li><a href="file:///C:/Users/YassineBekkaoui/Downloads/modelaje%203d/project_01.html">Proyecto 01</a></li>
+      <li><a href="file:///C:/Users/YassineBekkaoui/Downloads/modelaje%203d/project_02.html">Proyecto 02</a></li>
+      <li><a href="proyecto03.html">Proyecto 03</a></li>
+    </ul>
+  </li>
+  <li onclick="goTo('info')">Info</li>
+</ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <video autoplay muted loop playsinline>
+      <source src="video/project01.mp4" type="video/mp4">
+      Tu navegador no soporta video
+    </video>
+    <div class="overlay"></div>
+    <div class="content">
+      <h1>Proyecto 01</h1>
+      <p>Una experiencia web interactiva con diseño limpio y moderno, inspirada en Ableton.com.</p>
+      <a href="#features" class="btn">Ver características</a>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features">
+    <h2 class="section-title">Características Principales</h2>
+    <div class="features">
+      <div class="feature-card">
+        <h3>Interfaz Intuitiva</h3>
+        <p>Diseño minimalista con navegación clara y fluida.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Animaciones Suaves</h3>
+        <p>Microinteracciones y transiciones para mejorar la experiencia.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Responsive</h3>
+        <p>Adaptable a móviles, tablet y escritorio sin perder estilo.</p>
+      </div>
+      <div class="feature-card">
+        <h3>Integración Multimedia</h3>
+        <p>Video y audio integrados directamente en la página.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <h2 class="section-title">Sobre el Proyecto</h2>
+    <p>
+      Proyecto 01 es un experimento de diseño web inspirado en Ableton.com. 
+      Cada sección está pensada para dar una experiencia visual y funcional única.
+    </p>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <h2 class="section-title">Contacto</h2>
+    <p>Disponible para colaboraciones, mejoras y feedback del proyecto.</p>
+    <a href="mailto:tuemail@dominio.com" class="btn">Enviar mensaje</a>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © 2026 — Proyecto 01 / Portfolio
+  </footer>
+
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById('menu');
+      const toggle = document.querySelector('.menu-toggle');
+      menu.classList.toggle('active');
+      toggle.classList.toggle('active');
+    }
+
+    function goTo(id) {
+      toggleMenu();
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>
