@@ -1,303 +1,498 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Proyecto 01</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Proyecto 01 — Brazo Robótico</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
- 
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
-  <style>
-  
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body, html { width: 100%; font-family: 'Inter', sans-serif; scroll-behavior: smooth; }
-
-  
-    :root {
-      --bg: #0b0b0b;
-      --fg: #eaeaea;
-      --muted: #8a8a8a;
-      --primary: #6600ff;
-      --yellow: #ffee00;
+<style>
+   
+    .accordion {
+      margin-top: 50px;
     }
 
-    body { background: var(--bg); color: var(--fg); }
+    .accordion-item {
+      border-bottom: 1px solid #222;
+      padding: 20px 0;
+      cursor: pointer;
+    }
 
-    h1,h2,h3 { font-weight: 800; }
-    p { line-height: 1.7; color: var(--muted); }
-    a { text-decoration: none; color: inherit; }
+    .accordion-title {
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
 
-    section { padding: 100px 10%; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease;
+      color: var(--muted);
+    }
 
+    .accordion-item.active .accordion-content {
+      max-height: 300px;
+      margin-top: 15px;
+    }
 
-.to_menu li a {
-  font-size: 1rem;         
-  font-weight: 400;
-  color: var(--fg);         
-  transition: color 0.3s;   
+.menu-toggle {
+  position: fixed;
+  top: 25px;
+  left: 25px;
+  width: 50px;
+  height: 50px;
+  border: 1px solid var(--muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 200;
 }
 
-.to_menu li a:hover {
-  color: var(--yellow);     
+.menu-toggle span {
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  position: relative;
 }
 
-    
-    .menu-toggle {
-      position: fixed;
-      top: 25px;
-      left: 25px;
-      width: 50px;
-      height: 50px;
-      border: 1px solid var(--muted);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      z-index: 100;
-    }
+.menu-toggle span::before,
+.menu-toggle span::after {
+  content: "";
+  position: absolute;
+  width: 22px;
+  height: 2px;
+  background: var(--text);
+  left: 0;
+}
 
-    .menu-toggle span {
-      width: 22px;
-      height: 2px;
-      background: var(--fg);
-      position: relative;
-      transition: all 0.3s;
-    }
+.menu-toggle span::before { top: -7px; }
+.menu-toggle span::after { top: 7px; }
 
-    .menu-toggle span::before,
-    .menu-toggle span::after {
-      content: "";
-      position: absolute;
-      width: 22px;
-      height: 2px;
-      background: var(--fg);
-      left: 0;
-      transition: all 0.3s;
-    }
-    .menu-toggle span::before { top: -7px; }
-    .menu-toggle span::after { top: 7px; }
+nav {
+  position: fixed;
+  inset: 0;
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform: translateX(-100%);
+  transition: 0.8s cubic-bezier(.77,0,.18,1);
+  z-index: 150;
+}
 
-    .menu-toggle.active span { background: transparent; }
-    .menu-toggle.active span::before { transform: rotate(45deg) translate(5px,5px); top:0; }
-    .menu-toggle.active span::after { transform: rotate(-45deg) translate(5px,-5px); top:0; }
+nav.active {
+  transform: translateX(0);
+}
 
-    /* ===== NAV ===== */
-    nav {
-      position: fixed;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100vh;
-      background: var(--bg);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: 0.8s cubic-bezier(.77,0,.18,1);
-      z-index: 90;
-    }
-
-    nav.active { left: 0; }
-
-    nav ul { list-style: none; text-align: center; }
-    nav li {
-      font-size: clamp(2rem, 6vw, 5rem);
-      font-weight: 800;
-      margin: 20px 0;
-      cursor: pointer;
-      transition: color 0.3s;
-    }
-    nav li:hover { color: var(--muted); }
-
-    /* Contenedor de menú principal */
 nav ul {
   list-style: none;
-  padding: 0;
-  margin: 0;
+  text-align: center;
 }
 
-/* Items principales */
 nav li {
-  font-size: clamp(2rem, 6vw, 5rem);
+  font-size: clamp(2.5rem, 6vw, 5rem);
   font-weight: 800;
   margin: 20px 0;
   cursor: pointer;
-  position: relative; /* IMPORTANTE para submenú relativo */
-  transition: color 0.3s;
+  transition: color .3s;
 }
 
 nav li:hover {
-  color: var(--muted);
+  color: var(--neon);
 }
 
-/* Submenú “Proyectos” */
+
+.has-submenu {
+  position: relative;
+}
+
 .to_menu {
-  display: none;               /* Oculto por defecto */
-  position: relative;          /* Para que no se salga del contenedor */
+  display: none;
   margin-top: 10px;
-  padding: 5px 10px;
-  background: var(--bg);
-  border-left: 3px solid var(--red); /* Banda de acento */
-  list-style: none;
-  z-index: 100;
+  border-left: 3px solid var(--neon);
+  padding-left: 15px;
 }
 
-.to_menu li {
-  font-size: 1.2rem;           /* Más pequeño que item principal */
-  font-weight: 400;
-  padding: 5px 0;
-  margin: 0;
-}
-
-/* Hover del item principal muestra el submenú */
 .has-submenu:hover .to_menu {
   display: block;
 }
 
-/* Opcional: hover en sub-items */
-.to_menu li:hover {
-  color: var(--yellow);
+.to_menu li {
+  font-size: 1.2rem;
+  font-weight: 400;
+  margin: 8px 0;
 }
 
-    /* ===== HERO ===== */
-    .hero {
-      position: relative;
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      color: white;
-    }
+.to_menu li a {
+  color: var(--text);
+  text-decoration: none;
+  transition: color .3s;
+}
 
-    .hero video {
-      position: absolute;
-      top:0; left:0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: -1;
-    }
+.to_menu li a:hover {
+  color: var(--neon);
+}
 
-    .hero .overlay {
-      position: absolute;
-      top:0; left:0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.5);
-      z-index: 0;
-    }
 
-    .hero .content { position: relative; z-index: 1; max-width: 900px; }
-    .hero h1 { font-size: clamp(3rem, 7vw, 5rem); margin-bottom: 20px; }
-    .hero p { font-size: 1.5rem; }
-    .btn { display: inline-block; padding: 12px 30px; background: var(--primary); color:#fff; border-radius:5px; margin-top:20px; transition: background 0.3s; }
-    .btn:hover { background:#5500cc; }
 
-    /* ===== FEATURES ===== */
-    .section-title { font-size:2.5rem; margin-bottom:40px; text-align:center; }
-    .features { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:40px; }
-    .feature-card { background:#141414; padding:30px; border-radius:10px; transition: transform 0.3s; }
-    .feature-card:hover { transform: translateY(-10px); }
-    .feature-card h3 { margin-bottom:15px; color:var(--primary); }
+:root {
+  --bg: #05070c;
+  --card: #0b1220;
+  --neon: #3b82f6;
+  --neon-soft: rgba(59,130,246,.35);
+  --text: #e5e7eb;
+  --muted: #9ca3af;
+}
 
-    /* ===== FOOTER ===== */
-    footer { text-align:center; padding:50px 10%; color:var(--muted); background:#0a0a0a; font-size:0.9rem; }
-  </style>
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+}
+
+
+.hero {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 0 10%;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top, rgba(59,130,246,.15), transparent 60%);
+  z-index: -1;
+}
+
+.hero h1 {
+  font-size: clamp(3rem, 6vw, 5rem);
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: var(--muted);
+  max-width: 800px;
+  margin: auto;
+}
+
+/* ===== SECTIONS ===== */
+.project-section {
+  padding: 120px 10%;
+  border-bottom: 1px solid #0f172a;
+}
+
+.project-section h3 {
+  font-size: 2.4rem;
+  margin-bottom: 40px;
+  color: var(--neon);
+}
+
+/* ===== GRID ===== */
+.project-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.3fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.project-text p {
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+/* ===== BOTÓN ===== */
+.btn-outline {
+  margin-top: 25px;
+  padding: 12px 26px;
+  border: 1px solid var(--neon);
+  background: transparent;
+  color: var(--neon);
+  cursor: pointer;
+  transition: background .3s, color .3s;
+}
+
+.btn-outline:hover {
+  background: var(--neon);
+  color: #000;
+}
+
+/* ===== CINTA TRANSPORTADORA ===== */
+.media-belt {
+  overflow: hidden;
+  position: relative;
+}
+
+.belt-track {
+  display: flex;
+  gap: 25px;
+  animation: beltMove 45s linear infinite;
+}
+
+@keyframes beltMove {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+.belt-track img {
+  height: 180px;
+  border-radius: 14px;
+  filter: grayscale(20%);
+  transition: transform .2s ease, box-shadow .2s ease, filter .2s;
+}
+
+.belt-track img:hover {
+  transform: scale(1.08);
+  filter: grayscale(0);
+  box-shadow: 0 0 30px var(--neon-soft);
+}
+
+/* ===== REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(60px);
+  transition: opacity .9s ease, transform .9s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .project-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .belt-track img {
+    height: 150px;
+  }
+}
+
+footer {
+  padding: 60px;
+  text-align: center;
+  font-size: .9rem;
+  color: var(--muted);
+}
+
+</style>
 </head>
+
 <body>
 
-  <!-- MENU TOGGLE -->
-  <div class="menu-toggle" onclick="toggleMenu()"><span></span></div>
+  <!-- MENU BUTTON -->
+<div class="menu-toggle" onclick="toggleMenu()">
+  <span></span>
+</div>
 
-  <!-- NAV -->
-  <nav id="menu">
-   <ul>
-  <li onclick="goTo('about')">Sobre mí</li>
-  <li class="has-submenu">
-    Proyectos
-    <ul class="to_menu">
-      <li><a href="https://ybezb.github.io/Y-capsule/project_01.html">Proyecto 01</a></li>
-      <li><a href="https://ybezb.github.io/Y-capsule/project_02.html">Proyecto 02</a></li>
-      <li><a href="https://ybezb.github.io/Y-capsule/project_03.html">Proyecto 03</a></li>
-    </ul>
-  </li>
-  <li onclick="goTo('info')">Info</li>
-</ul>
-  </nav>
+<!-- MENU -->
+<nav id="menu">
+  <ul>
+    <li onclick="goHome()">Sobre mí</li>
 
-  <!-- HERO -->
-  <section class="hero" id="hero">
-    <video autoplay muted loop playsinline>
-      <source src="video/project01.mp4" type="video/mp4">
-      Tu navegador no soporta video
-    </video>
-    <div class="overlay"></div>
-    <div class="content">
-      <h1>Proyecto 01</h1>
-      <p>Una experiencia web interactiva con diseño limpio y moderno, inspirada en Ableton.com.</p>
-      <a href="#features" class="btn">Ver características</a>
-    </div>
-  </section>
+    <li class="has-submenu">
+      Proyectos
+      <ul class="to_menu">
+        <li><a href="https://ybezb.github.io/Y-capsule/project_01.html">Proyecto 01</a></li>
+        <li><a href="https://ybezb.github.io/Y-capsule/project_02.html">Proyecto 02</a></li>
+        <li><a href="https://ybezb.github.io/Y-capsule/project_03.html">Proyecto 03</a></li>
+      </ul>
+    </li>
 
-  <!-- FEATURES -->
-  <section id="features">
-    <h2 class="section-title">Características Principales</h2>
-    <div class="features">
-      <div class="feature-card">
-        <h3>Interfaz Intuitiva</h3>
-        <p>Diseño minimalista con navegación clara y fluida.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Animaciones Suaves</h3>
-        <p>Microinteracciones y transiciones para mejorar la experiencia.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Responsive</h3>
-        <p>Adaptable a móviles, tablet y escritorio sin perder estilo.</p>
-      </div>
-      <div class="feature-card">
-        <h3>Integración Multimedia</h3>
-        <p>Video y audio integrados directamente en la página.</p>
-      </div>
-    </div>
-  </section>
+    <li onclick="goHome('info')">Info</li>
+  </ul>
+</nav>
 
-  <!-- ABOUT -->
-  <section id="about">
-    <h2 class="section-title">Sobre el Proyecto</h2>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <h1>Brazo Robótico 3D</h1>
     <p>
-      Proyecto 01 es un experimento de diseño web inspirado en Ableton.com. 
-      Cada sección está pensada para dar una experiencia visual y funcional única.
+      Proyecto de diseño, planificación y desarrollo de un brazo robótico
+      impreso en 3D, documentando todo el proceso desde la idea hasta el prototipo funcional.
     </p>
-  </section>
+  </div>
+</section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <h2 class="section-title">Contacto</h2>
-    <p>Disponible para colaboraciones, mejoras y feedback del proyecto.</p>
-    <a href="mailto:tuemail@dominio.com" class="btn">Enviar mensaje</a>
-  </section>
+<!-- ESTADO ACTUAL -->
+<section class="project-section reveal">
+  <h3>Estado actual</h3>
 
-  <!-- FOOTER -->
-  <footer>
-    © 2026 — Proyecto 01 / Portfolio
-  </footer>
+  <div class="project-grid">
+    <div class="project-text">
+      <p>
+        El proyecto se encuentra en fase inicial. Se ha realizado un croquis
+        conceptual y se está definiendo la arquitectura mecánica, número de ejes
+        y tipo de actuadores necesarios.
+      </p>
+      <button class="btn-outline">Ver notas técnicas</button>
+    </div>
 
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('menu');
-      const toggle = document.querySelector('.menu-toggle');
-      menu.classList.toggle('active');
-      toggle.classList.toggle('active');
+    <div class="media-belt">
+      <div class="belt-track">
+        <img src="file:///C:/Users/YassineBekkaoui/Downloads/img-vid/maxresdefault.jpg">
+        <img src="https://i.ytimg.com/vi/SW2C5NS16Ho/maxresdefault.jpg">
+        <img src="file:///C:/Users/YassineBekkaoui/Downloads/img-vid/maxresdefault.jpg">
+        <img src="https://i.ytimg.com/vi/SW2C5NS16Ho/maxresdefault.jpg">
+        <img src="file:///C:/Users/YassineBekkaoui/Downloads/img-vid/maxresdefault.jpg">
+      </div>
+    </div>
+  </div>
+
+   <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-title">
+          En qué trabajo <span>+</span>
+        </div>
+        <div class="accordion-content">
+          Frontend avanzado, CSS creativo, APIs, diseño técnico y sistemas web.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-title">
+          Filosofía <span>+</span>
+        </div>
+        <div class="accordion-content">
+          Menos ruido. Más intención. Cada detalle cuenta.
+        </div>
+      </div>
+    </div>
+
+</section>
+
+<!-- OBJETIVOS -->
+<section class="project-section reveal">
+  <h3>Objetivos</h3>
+
+  <div class="project-grid">
+    <div class="project-text">
+      <p>
+        Diseñar un brazo robótico modular, escalable y documentado,
+        aplicando conocimientos de mecánica, electrónica y control.
+      </p>
+      <button class="btn-outline">Ampliar objetivos</button>
+    </div>
+
+    <div class="media-belt">
+      <div class="belt-track">
+        <img src="img/objetivo1.jpg">
+        <img src="img/objetivo2.jpg">
+        <img src="img/objetivo3.jpg">
+        <img src="img/objetivo1.jpg">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MATERIALES -->
+<section class="project-section reveal">
+  <h3>Materiales</h3>
+
+  <div class="project-grid">
+    <div class="project-text">
+      <p>
+        Se prevé el uso de PLA o PETG para las piezas estructurales,
+        junto con tornillería estándar, ejes metálicos, motores y
+        un microcontrolador para el control del sistema.
+      </p>
+      <button class="btn-outline">Lista completa</button>
+    </div>
+
+    <div class="media-belt">
+      <div class="belt-track">
+        <img src="img/material1.jpg">
+        <img src="img/material2.jpg">
+        <img src="img/material3.jpg">
+        <img src="img/material1.jpg">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRÓXIMOS PASOS -->
+<section class="project-section reveal">
+  <h3>Próximos pasos</h3>
+
+  <div class="project-grid">
+    <div class="project-text">
+      <p>
+        Modelado 3D detallado, simulaciones de movimiento,
+        impresión de prototipos y primeras pruebas funcionales.
+      </p>
+      <button class="btn-outline">Planificación</button>
+    </div>
+
+    <div class="media-belt">
+      <div class="belt-track">
+        <img src="img/paso1.jpg">
+        <img src="img/paso2.jpg">
+        <img src="img/paso3.jpg">
+        <img src="img/paso1.jpg">
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+© 2026 · Proyecto 01 · Portfolio personal
+</footer>
+
+<script>
+/* SCROLL REVEAL */
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("visible");
+      observer.unobserve(entry.target);
     }
+  });
+}, { threshold: 0.2 });
 
-    function goTo(id) {
-      toggleMenu();
-      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
-    }
-  </script>
+document.querySelectorAll(".reveal")
+  .forEach(el => observer.observe(el));
+
+
+function toggleMenu() {
+  document.getElementById("menu").classList.toggle("active");
+}
+
+function goHome(anchor = "") {
+  toggleMenu();
+  if (anchor) {
+    window.location.href = "index.html#" + anchor;
+  } else {
+    window.location.href = "index.html";
+  }
+}
+/* ACCORDION */
+    document.querySelectorAll('.accordion-item').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+
+</script>
+
 </body>
 </html>
-
