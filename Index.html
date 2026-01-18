@@ -5,7 +5,7 @@
   <title>Portfolio </title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
- 
+  <!-- GOOGLE FONT -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
   <style>
@@ -13,7 +13,7 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
     body, html { width: 100%; height: 100%; font-family: 'Inter', sans-serif; }
 
-    
+    /* VIDEO DE FONDO */
     #bg-video {
       position: fixed;
       top: 0;
@@ -21,10 +21,10 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
-      z-index: -1; 
+      z-index: -1; /* Detrás de todo */
     }
 
-   
+    /* CONTENIDO ENCIMA DEL VIDEO */
     .content {
       position: relative;
       z-index: 1;
@@ -36,14 +36,14 @@
     h1 { font-size: 4rem; margin-bottom: 20px; }
     p { font-size: 1.5rem; max-width: 700px; margin: 0 auto; line-height: 1.6; }
 
- 
+    /* Opcional: overlay oscuro */
     .overlay {
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.4); 
+      background: rgba(0,0,0,0.4); /* oscurece un poco el vídeo */
       z-index: 0;
     }
 
@@ -53,7 +53,7 @@
   --muted: #8a8a8a;
   --card: #141414;
 
-  
+  /* Acentos tipo Ableton */
   --red: #0000ff;
   --yellow: #ffd600;
   --blue: #3b82f6;
@@ -65,7 +65,7 @@
   overflow: hidden;
 }
 
-
+/* Banda de color lateral */
 .project-card::before {
   content: "";
   position: absolute;
@@ -77,7 +77,7 @@
   transition: width 0.4s ease;
 }
 
-
+/* Hover elegante */
 .project-card:hover::before {
   width: 100%;
   opacity: 0.12;
@@ -95,7 +95,7 @@
       overflow-x: hidden;
     }
 
-  
+    /* ===== MENU ===== */
     .menu-toggle {
       position: fixed;
       top: 25px;
@@ -165,7 +165,7 @@
       color: var(--muted);
     }
 
-    
+    /* ===== SECTIONS ===== */
     section {
       min-height: 100vh;
       padding: 120px 10%;
@@ -192,7 +192,7 @@
       line-height: 1.7;
     }
 
-   
+    /* ===== ACCORDION ===== */
     .accordion {
       margin-top: 50px;
     }
@@ -222,7 +222,7 @@
       margin-top: 15px;
     }
 
-    
+    /* ===== PROJECTS ===== */
     .projects {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -246,7 +246,7 @@
       margin-bottom: 10px;
     }
 
-    
+    /* ===== FOOTER ===== */
     footer {
       padding: 50px;
       text-align: center;
@@ -260,43 +260,43 @@
   display: block;
 }
 
-
+/* Submenú de Proyectos */
 .to_menu li a {
-  font-size: 1rem;         
+  font-size: 1rem;          /* Más pequeño que los items principales */
   font-weight: 400;
-  color: var(--fg);        
-  transition: color 0.3s;   
+  color: var(--fg);         /* Color normal */
+  transition: color 0.3s;   /* Transición suave al pasar el cursor */
 }
 
 .to_menu li a:hover {
-  color: var(--yellow);    
+  color: var(--yellow);     /* Cambia a amarillo al pasar el cursor */
 }
 
-
+/* Submenú “Proyectos” */
 .to_menu {
-  display: none;               
-  position: relative;          
+  display: none;               /* Oculto por defecto */
+  position: relative;          /* Para que no se salga del contenedor */
   margin-top: 10px;
   padding: 5px 10px;
   background: var(--bg);
-  border-left: 3px solid var(--red); 
+  border-left: 3px solid var(--red); /* Banda de acento */
   list-style: none;
   z-index: 100;
 }
 
 .to_menu li {
-  font-size: 1.2rem;           
+  font-size: 1.2rem;           /* Más pequeño que item principal */
   font-weight: 400;
   padding: 5px 0;
   margin: 0;
 }
 
-
+/* Hover del item principal muestra el submenú */
 .has-submenu:hover .to_menu {
   display: block;
 }
 
-
+/* Opcional: hover en sub-items */
 .to_menu li:hover {
   color: var(--yellow);
 }
@@ -304,12 +304,12 @@
 </head>
 <body>
 
- 
+  <!-- MENU BUTTON -->
   <div class="menu-toggle" onclick="toggleMenu()">
     <span></span>
   </div>
 
-
+  <!-- MENU -->
   <nav id="menu">
    <ul>
   <li onclick="goTo('about')">Sobre mí</li>
@@ -366,7 +366,7 @@
   <section id="projects">
     <h1>Proyectos</h1>
 
-    <a href=https://ybezb.github.io/Y-capsule/project_01.html" class="project-link">
+    <a href="https://ybezb.github.io/Y-capsule/project_01.html" class="project-link">
         <div class="project-card">
              <h3>Proyecto 01</h3>
              <p>Sistema web con enfoque visual y alto rendimiento.</p>
@@ -436,7 +436,3 @@
 
 </body>
 </html>
-
-
-
-
