@@ -9,22 +9,48 @@
 
 <style>
 
-/* ================== PALETA TUKI STYLE ================== */
 :root {
   --bg: #0b0b0b;
   --fg: #ffffff;
   --muted: #8a8a8a;
 
   --pink: #ff1f69;
-  --red-dark: #7c1b1e;
-  --blue-neon: #0099e0;
-  --green-neon: #00ff9c;
-  --yellow-acid: #ffea00;
+  --blue: #0099e0;
+  --green: #00ff9c;
+  --yellow: #ffea00;
 
   --card: #141414;
 }
 
-/* ================== RESET ================== */
+    .accordion {
+      margin-top: 50px;
+    }
+
+    .accordion-item {
+      border-bottom: 1px solid #222;
+      padding: 20px 0;
+      cursor: pointer;
+    }
+
+    .accordion-title {
+      font-size: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s ease;
+      color: var(--muted);
+    }
+
+    .accordion-item.active .accordion-content {
+      max-height: 300px;
+      margin-top: 15px;
+    }
+
 * {
   margin: 0;
   padding: 0;
@@ -38,7 +64,6 @@ body {
   overflow-x: hidden;
 }
 
-/* ================== MENU ================== */
 .menu-toggle {
   position: fixed;
   top: 25px;
@@ -56,11 +81,11 @@ body {
 .menu-toggle span,
 .menu-toggle span::before,
 .menu-toggle span::after {
+  content: "";
   width: 22px;
   height: 2px;
   background: var(--fg);
   position: absolute;
-  content: "";
 }
 
 .menu-toggle span::before { transform: translateY(-7px); }
@@ -74,13 +99,11 @@ nav {
   align-items: center;
   justify-content: center;
   transform: translateX(-100%);
-  transition: 0.8s cubic-bezier(.77,0,.18,1);
+  transition: .8s cubic-bezier(.77,0,.18,1);
   z-index: 150;
 }
 
-nav.active {
-  transform: translateX(0);
-}
+nav.active { transform: translateX(0); }
 
 nav ul {
   list-style: none;
@@ -88,42 +111,32 @@ nav ul {
 }
 
 nav li {
-  font-size: clamp(2.5rem, 6vw, 5rem);
+  font-size: clamp(2.5rem,6vw,5rem);
   font-weight: 800;
   margin: 20px 0;
-  cursor: pointer;
 }
 
-nav li:hover {
-  color: var(--pink);
+nav a {
+  color: inherit;
+  text-decoration: none;
 }
+
+nav li:hover { color: var(--pink); }
 
 .to_menu {
   display: none;
   margin-top: 15px;
-  border-left: 3px solid var(--blue-neon);
+  border-left: 3px solid var(--blue);
   padding-left: 15px;
 }
 
-.has-submenu:hover .to_menu {
-  display: block;
-}
+.has-submenu:hover .to_menu { display: block; }
 
 .to_menu li {
   font-size: 1.2rem;
   font-weight: 400;
 }
 
-.to_menu a {
-  color: var(--fg);
-  text-decoration: none;
-}
-
-.to_menu a:hover {
-  color: var(--green-neon);
-}
-
-/* ================== HERO ================== */
 .hero {
   height: 100vh;
   display: flex;
@@ -146,8 +159,7 @@ nav li:hover {
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 7vw, 6rem);
-  margin-bottom: 20px;
+  font-size: clamp(3rem,7vw,6rem);
   color: var(--pink);
 }
 
@@ -156,7 +168,6 @@ nav li:hover {
   color: var(--muted);
 }
 
-/* ================== SECTIONS ================== */
 section {
   min-height: 100vh;
   padding: 120px 10%;
@@ -170,10 +181,16 @@ section.visible {
   transform: translateY(0);
 }
 
+.project-block {
+  background: var(--card);
+  padding: 60px;
+  border-left: 6px solid var(--pink);
+}
+
 h2 {
+  color: var(--blue);
   font-size: 2.5rem;
-  margin-bottom: 30px;
-  color: var(--blue-neon);
+  margin-bottom: 25px;
 }
 
 p {
@@ -182,19 +199,7 @@ p {
   color: var(--muted);
 }
 
-/* ================== PROJECT BLOCK ================== */
-.project-block {
-  background: var(--card);
-  margin-top: 80px;
-  padding: 60px;
-  border-left: 6px solid var(--pink);
-  position: relative;
-}
-
-/* ================== CINTA TRANSPORTADORA ================== */
 .media-belt {
-  display: flex;
-  gap: 30px;
   margin: 40px 0;
   overflow: hidden;
 }
@@ -208,14 +213,14 @@ p {
 .media-item {
   min-width: 300px;
   height: 180px;
-  background: linear-gradient(135deg, var(--blue-neon), var(--pink));
   border-radius: 8px;
-  transition: transform .4s, box-shadow .4s;
+  object-fit: cover;
+  transition: .4s;
 }
 
 .media-item:hover {
   transform: scale(1.05);
-  box-shadow: 0 0 20px var(--blue-neon);
+  box-shadow: 0 0 25px var(--blue);
 }
 
 @keyframes belt {
@@ -223,26 +228,58 @@ p {
   to { transform: translateX(-50%); }
 }
 
-/* ================== DESPLEGABLE ================== */
-.toggle {
-  margin-top: 30px;
-  cursor: pointer;
-  font-weight: 600;
-  color: var(--yellow-acid);
+.specs {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 25px;
+  margin-top: 40px;
 }
 
-.toggle-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height .6s ease;
-  margin-top: 15px;
+.spec-card {
+  background: #0e0e0e;
+  border: 1px solid #1f1f1f;
+  padding: 25px;
+  transition: .3s;
 }
 
-.toggle.active + .toggle-content {
-  max-height: 400px;
+.spec-card:hover {
+  border-color: var(--blue);
+  transform: translateY(-4px);
 }
 
-/* ================== FOOTER ================== */
+.spec-card h4 {
+  color: var(--yellow);
+  font-size: .9rem;
+  margin-bottom: 10px;
+}
+
+.progress {
+  position: fixed;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 100;
+}
+
+.progress span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.progress span.active {
+  background: var(--blue);
+  box-shadow: 0 0 12px var(--blue);
+}
+
+@media(max-width:900px){
+  .progress { display:none; }
+}
+
 footer {
   padding: 60px;
   text-align: center;
@@ -253,18 +290,11 @@ footer {
 </head>
 
 <body>
-
-<div class="menu-toggle" onclick="toggleMenu()">
-  <span></span>
-</div>
+<div class="menu-toggle" onclick="toggleMenu()"><span></span></div>
 
 <nav id="menu">
   <ul>
-   <li>
-  <a href="Index.html" style="color: inherit; text-decoration: none;">
-    Sobre mí
-</a>
-</li>
+    <li><a href="Index.html">Sobre mí</a></li>
     <li class="has-submenu">
       Proyectos
       <ul class="to_menu">
@@ -273,86 +303,122 @@ footer {
         <li><a href="https://ybezb.github.io/Y-capsule/project_03.html">Proyecto 03</a></li>
       </ul>
     </li>
-    <li onclick="goHome('info')">Info</li>
   </ul>
 </nav>
 
-<section class="hero">
+<div class="progress">
+  <span data-target="estado"></span>
+  <span data-target="objetivos"></span>
+  <span data-target="materiales"></span>
+  <span data-target="pasos"></span>
+</div>
+
+<section class="hero visible">
   <div class="hero-content">
     <h1>Brazo Robótico 3D</h1>
     <p>Diseño mecánico, electrónica y control documentados paso a paso.</p>
   </div>
 </section>
 
-<section>
+<section id="estado">
   <div class="project-block">
     <h2>Estado actual</h2>
     <p>Concepto definido y croquis inicial. Fase de análisis estructural.</p>
 
-   <div class="media-belt">
-  <div class="media-track">
-    <img class="media-item" src="https://vvaindustrial.com/wp-content/uploads/2023/11/BRAZO-ROBOTICO-FESTO-NEUMATICO.png" alt="Croquis brazo robótico">
-    <img class="media-item" src="https://vvaindustrial.com/wp-content/uploads/2023/11/BRAZO-ROBOTICO-FESTO-NEUMATICO.png" alt="Diseño conceptual">
-    <img class="media-item" src="img/brazo_03.jpg" alt="Referencia mecánica">
-    <img class="media-item" src="img/brazo_04.jpg" alt="Inspiración industrial">
-  </div>
-</div>
+    <div class="media-belt">
+      <div class="media-track">
+        <img class="media-item" src="https://vvaindustrial.com/wp-content/uploads/2023/11/BRAZO-ROBOTICO-FESTO-NEUMATICO.png">
+        <img class="media-item" src="https://vvaindustrial.com/wp-content/uploads/2023/11/BRAZO-ROBOTICO-FESTO-NEUMATICO.png">
+        <img class="media-item" src="https://vvaindustrial.com/wp-content/uploads/2023/11/BRAZO-ROBOTICO-FESTO-NEUMATICO.png">
+      </div>
+    </div>
 
-    <div class="toggle">Ver más detalles</div>
-    <div class="toggle-content">
-      <p>Estudio de geometrías, cargas y materiales imprimibles.</p>
+    <div class="specs">
+      <div class="spec-card"><h4>DOF</h4><p>4–6</p></div>
+      <div class="spec-card"><h4>Material</h4><p>PLA / PETG</p></div>
+      <div class="spec-card"><h4>Control</h4><p>Arduino</p></div>
+      <div class="spec-card"><h4>Objetivo</h4><p>Prototipo</p></div>
     </div>
   </div>
+
+  <div class="accordion">
+      <div class="accordion-item">
+        <div class="accordion-title">
+          En qué trabajo <span>+</span>
+        </div>
+        <div class="accordion-content">
+          Frontend avanzado, CSS creativo, APIs, diseño técnico y sistemas web.
+        </div>
+      </div>
+
+      <div class="accordion-item">
+        <div class="accordion-title">
+          Filosofía <span>+</span>
+        </div>
+        <div class="accordion-content">
+          Menos ruido. Más intención. Cada detalle cuenta.
+        </div>
+      </div>
+    </div>
+
 </section>
 
-<section>
+<section id="objetivos">
   <div class="project-block">
     <h2>Objetivos</h2>
-    <p>Construir un sistema robótico funcional, modular y documentado.</p>
+    <p>Diseñar un brazo robótico modular, escalable y bien documentado.</p>
   </div>
 </section>
 
-<section>
+<section id="materiales">
   <div class="project-block">
     <h2>Materiales</h2>
-    <p>PLA / PETG, servos, Arduino, fuentes, rodamientos y tornillería.</p>
+    <p>PLA / PETG, servos, electrónica de control y estructura mecánica.</p>
   </div>
 </section>
 
-<section>
+<section id="pasos">
   <div class="project-block">
     <h2>Próximos pasos</h2>
-    <p>Modelado 3D, impresión, montaje, pruebas y control.</p>
+    <p>Modelado CAD, impresión, montaje, pruebas y control.</p>
   </div>
 </section>
 
 <footer>
-© 2026 — Proyecto 01 · Portfolio
+© 2026 · Proyecto 01 · Portfolio
 </footer>
 
 <script>
-function toggleMenu() {
+function toggleMenu(){
   document.getElementById("menu").classList.toggle("active");
 }
 
-function goHome(anchor="") {
-  toggleMenu();
-  window.location.href = anchor ? "index.html#" + anchor : "index.html";
-}
-
-document.querySelectorAll('.toggle').forEach(t => {
-  t.addEventListener('click', () => t.classList.toggle('active'));
-});
-
 const sections = document.querySelectorAll('section');
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
-}, { threshold: 0.2 });
+const observer = new IntersectionObserver(e=>{
+  e.forEach(x=>x.isIntersecting && x.target.classList.add('visible'));
+},{threshold:.2});
+sections.forEach(s=>observer.observe(s));
 
-sections.forEach(s => observer.observe(s));
+const dots = document.querySelectorAll('.progress span');
+const targets = [...dots].map(d=>document.getElementById(d.dataset.target));
+
+const progObs = new IntersectionObserver(e=>{
+  e.forEach(x=>{
+    if(x.isIntersecting){
+      dots.forEach(d=>d.classList.remove('active'));
+      dots[targets.indexOf(x.target)].classList.add('active');
+    }
+  });
+},{threshold:.5});
+targets.forEach(t=>t && progObs.observe(t));
+
+
+    document.querySelectorAll('.accordion-item').forEach(item => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
 </script>
 
 </body>
 </html>
-
-
