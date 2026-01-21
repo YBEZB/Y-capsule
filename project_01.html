@@ -2,49 +2,50 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Proyecto 01 — Brazo Robótico</title>
+<title>Proyecto 01 — Brazo Robótico 3D</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
 
 <style>
-   
-    .accordion {
-      margin-top: 50px;
-    }
 
-    .accordion-item {
-      border-bottom: 1px solid #222;
-      padding: 20px 0;
-      cursor: pointer;
-    }
+/* ================== PALETA TUKI STYLE ================== */
+:root {
+  --bg: #0b0b0b;
+  --fg: #ffffff;
+  --muted: #8a8a8a;
 
-    .accordion-title {
-      font-size: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  --pink: #ff1f69;
+  --red-dark: #7c1b1e;
+  --blue-neon: #0099e0;
+  --green-neon: #00ff9c;
+  --yellow-acid: #ffea00;
 
-    .accordion-content {
-      max-height: 0;
-      overflow: hidden;
-      transition: max-height 0.6s ease;
-      color: var(--muted);
-    }
+  --card: #141414;
+}
 
-    .accordion-item.active .accordion-content {
-      max-height: 300px;
-      margin-top: 15px;
-    }
+/* ================== RESET ================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--bg);
+  color: var(--fg);
+  overflow-x: hidden;
+}
+
+/* ================== MENU ================== */
 .menu-toggle {
   position: fixed;
   top: 25px;
   left: 25px;
   width: 50px;
   height: 50px;
-  border: 1px solid var(--muted);
+  border: 1px solid var(--pink);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -52,25 +53,18 @@
   z-index: 200;
 }
 
-.menu-toggle span {
-  width: 22px;
-  height: 2px;
-  background: var(--text);
-  position: relative;
-}
-
+.menu-toggle span,
 .menu-toggle span::before,
 .menu-toggle span::after {
-  content: "";
-  position: absolute;
   width: 22px;
   height: 2px;
-  background: var(--text);
-  left: 0;
+  background: var(--fg);
+  position: absolute;
+  content: "";
 }
 
-.menu-toggle span::before { top: -7px; }
-.menu-toggle span::after { top: 7px; }
+.menu-toggle span::before { transform: translateY(-7px); }
+.menu-toggle span::after { transform: translateY(7px); }
 
 nav {
   position: fixed;
@@ -98,22 +92,16 @@ nav li {
   font-weight: 800;
   margin: 20px 0;
   cursor: pointer;
-  transition: color .3s;
 }
 
 nav li:hover {
-  color: var(--neon);
-}
-
-
-.has-submenu {
-  position: relative;
+  color: var(--pink);
 }
 
 .to_menu {
   display: none;
-  margin-top: 10px;
-  border-left: 3px solid var(--neon);
+  margin-top: 15px;
+  border-left: 3px solid var(--blue-neon);
   padding-left: 15px;
 }
 
@@ -124,52 +112,24 @@ nav li:hover {
 .to_menu li {
   font-size: 1.2rem;
   font-weight: 400;
-  margin: 8px 0;
 }
 
-.to_menu li a {
-  color: var(--text);
+.to_menu a {
+  color: var(--fg);
   text-decoration: none;
-  transition: color .3s;
 }
 
-.to_menu li a:hover {
-  color: var(--neon);
+.to_menu a:hover {
+  color: var(--green-neon);
 }
 
-
-
-:root {
-  --bg: #05070c;
-  --card: #0b1220;
-  --neon: #3b82f6;
-  --neon-soft: rgba(59,130,246,.35);
-  --text: #e5e7eb;
-  --muted: #9ca3af;
-}
-
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: 'Inter', sans-serif;
-  background: var(--bg);
-  color: var(--text);
-  overflow-x: hidden;
-}
-
-
+/* ================== HERO ================== */
 .hero {
   height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 0 10%;
   position: relative;
 }
 
@@ -177,120 +137,115 @@ body {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at top, rgba(59,130,246,.15), transparent 60%);
-  z-index: -1;
+  background: radial-gradient(circle, rgba(255,31,105,.15), rgba(0,0,0,.9));
+}
+
+.hero-content {
+  position: relative;
+  max-width: 900px;
 }
 
 .hero h1 {
-  font-size: clamp(3rem, 6vw, 5rem);
+  font-size: clamp(3rem, 7vw, 6rem);
   margin-bottom: 20px;
+  color: var(--pink);
 }
 
 .hero p {
-  font-size: 1.2rem;
+  font-size: 1.3rem;
   color: var(--muted);
-  max-width: 800px;
-  margin: auto;
 }
 
-/* ===== SECTIONS ===== */
-.project-section {
+/* ================== SECTIONS ================== */
+section {
+  min-height: 100vh;
   padding: 120px 10%;
-  border-bottom: 1px solid #0f172a;
-}
-
-.project-section h3 {
-  font-size: 2.4rem;
-  margin-bottom: 40px;
-  color: var(--neon);
-}
-
-/* ===== GRID ===== */
-.project-grid {
-  display: grid;
-  grid-template-columns: 1fr 1.3fr;
-  gap: 60px;
-  align-items: center;
-}
-
-.project-text p {
-  line-height: 1.8;
-  color: var(--muted);
-}
-
-/* ===== BOTÓN ===== */
-.btn-outline {
-  margin-top: 25px;
-  padding: 12px 26px;
-  border: 1px solid var(--neon);
-  background: transparent;
-  color: var(--neon);
-  cursor: pointer;
-  transition: background .3s, color .3s;
-}
-
-.btn-outline:hover {
-  background: var(--neon);
-  color: #000;
-}
-
-/* ===== CINTA TRANSPORTADORA ===== */
-.media-belt {
-  overflow: hidden;
-  position: relative;
-}
-
-.belt-track {
-  display: flex;
-  gap: 25px;
-  animation: beltMove 45s linear infinite;
-}
-
-@keyframes beltMove {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-.belt-track img {
-  height: 180px;
-  border-radius: 14px;
-  filter: grayscale(20%);
-  transition: transform .2s ease, box-shadow .2s ease, filter .2s;
-}
-
-.belt-track img:hover {
-  transform: scale(1.08);
-  filter: grayscale(0);
-  box-shadow: 0 0 30px var(--neon-soft);
-}
-
-/* ===== REVEAL ===== */
-.reveal {
   opacity: 0;
   transform: translateY(60px);
-  transition: opacity .9s ease, transform .9s ease;
+  transition: 1s ease;
 }
 
-.reveal.visible {
+section.visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 900px) {
-  .project-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .belt-track img {
-    height: 150px;
-  }
+h2 {
+  font-size: 2.5rem;
+  margin-bottom: 30px;
+  color: var(--blue-neon);
 }
 
+p {
+  max-width: 800px;
+  line-height: 1.8;
+  color: var(--muted);
+}
+
+/* ================== PROJECT BLOCK ================== */
+.project-block {
+  background: var(--card);
+  margin-top: 80px;
+  padding: 60px;
+  border-left: 6px solid var(--pink);
+  position: relative;
+}
+
+/* ================== CINTA TRANSPORTADORA ================== */
+.media-belt {
+  display: flex;
+  gap: 30px;
+  margin: 40px 0;
+  overflow: hidden;
+}
+
+.media-track {
+  display: flex;
+  gap: 30px;
+  animation: belt 40s linear infinite;
+}
+
+.media-item {
+  min-width: 300px;
+  height: 180px;
+  background: linear-gradient(135deg, var(--blue-neon), var(--pink));
+  border-radius: 8px;
+  transition: transform .4s, box-shadow .4s;
+}
+
+.media-item:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--blue-neon);
+}
+
+@keyframes belt {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ================== DESPLEGABLE ================== */
+.toggle {
+  margin-top: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--yellow-acid);
+}
+
+.toggle-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height .6s ease;
+  margin-top: 15px;
+}
+
+.toggle.active + .toggle-content {
+  max-height: 400px;
+}
+
+/* ================== FOOTER ================== */
 footer {
   padding: 60px;
   text-align: center;
-  font-size: .9rem;
   color: var(--muted);
 }
 
@@ -299,199 +254,102 @@ footer {
 
 <body>
 
-  <!-- MENU BUTTON -->
 <div class="menu-toggle" onclick="toggleMenu()">
   <span></span>
 </div>
 
-<!-- MENU -->
 <nav id="menu">
   <ul>
-    <li onclick="goHome()">Sobre mí</li>
-
+   <li>
+  <a href="index.html" style="color: inherit; text-decoration: none;">
+    Sobre mí
+</a>
+</li>
     <li class="has-submenu">
       Proyectos
       <ul class="to_menu">
-        <li><a href="https://ybezb.github.io/Y-capsule/project_01.html">Proyecto 01</a></li>
-        <li><a href="https://ybezb.github.io/Y-capsule/project_02.html">Proyecto 02</a></li>
-        <li><a href="https://ybezb.github.io/Y-capsule/project_03.html">Proyecto 03</a></li>
+        <li><a href="href="https://ybezb.github.io/Y-capsule/project_01.html">Proyecto 01</a></li>
+        <li><a href="href="https://ybezb.github.io/Y-capsule/project_02.html">Proyecto 02</a></li>
+        <li><a href="href="https://ybezb.github.io/Y-capsule/project_03.html">Proyecto 03</a></li>
       </ul>
     </li>
-
     <li onclick="goHome('info')">Info</li>
   </ul>
 </nav>
 
-
-<!-- HERO -->
 <section class="hero">
-  <div>
+  <div class="hero-content">
     <h1>Brazo Robótico 3D</h1>
-    <p>
-      Proyecto de diseño, planificación y desarrollo de un brazo robótico
-      impreso en 3D, documentando todo el proceso desde la idea hasta el prototipo funcional.
-    </p>
+    <p>Diseño mecánico, electrónica y control documentados paso a paso.</p>
   </div>
 </section>
 
-<!-- ESTADO ACTUAL -->
-<section class="project-section reveal">
-  <h3>Estado actual</h3>
+<section>
+  <div class="project-block">
+    <h2>Estado actual</h2>
+    <p>Concepto definido y croquis inicial. Fase de análisis estructural.</p>
 
-  <div class="project-grid">
-    <div class="project-text">
-      <p>
-        El proyecto se encuentra en fase inicial. Se ha realizado un croquis
-        conceptual y se está definiendo la arquitectura mecánica, número de ejes
-        y tipo de actuadores necesarios.
-      </p>
-      <button class="btn-outline">Ver notas técnicas</button>
-    </div>
-
-    <div class="media-belt">
-      <div class="belt-track">
-        <img src="file:///C:/Users/YassineBekkaoui/Downloads/img-vid/maxresdefault.jpg">
-        <img src="https://i.ytimg.com/vi/SW2C5NS16Ho/maxresdefault.jpg">
-        <img src="file:///C:/Users/YassineBekkaoui/Downloads/img-vid/maxresdefault.jpg">
-        <img src="https://i.ytimg.com/vi/SW2C5NS16Ho/maxresdefault.jpg">
-        <img src="file:///C:/Users/YassineBekkaoui/Downloads/img-vid/maxresdefault.jpg">
-      </div>
-    </div>
+   <div class="media-belt">
+  <div class="media-track">
+    <img class="media-item" src="https://vvaindustrial.com/wp-content/uploads/2023/11/BRAZO-ROBOTICO-FESTO-NEUMATICO.png" alt="Croquis brazo robótico">
+    <img class="media-item" src="https://vvaindustrial.com/wp-content/uploads/2023/11/BRAZO-ROBOTICO-FESTO-NEUMATICO.png" alt="Diseño conceptual">
+    <img class="media-item" src="img/brazo_03.jpg" alt="Referencia mecánica">
+    <img class="media-item" src="img/brazo_04.jpg" alt="Inspiración industrial">
   </div>
+</div>
 
-   <div class="accordion">
-      <div class="accordion-item">
-        <div class="accordion-title">
-          En qué trabajo <span>+</span>
-        </div>
-        <div class="accordion-content">
-          Frontend avanzado, CSS creativo, APIs, diseño técnico y sistemas web.
-        </div>
-      </div>
-
-      <div class="accordion-item">
-        <div class="accordion-title">
-          Filosofía <span>+</span>
-        </div>
-        <div class="accordion-content">
-          Menos ruido. Más intención. Cada detalle cuenta.
-        </div>
-      </div>
-    </div>
-
-</section>
-
-<!-- OBJETIVOS -->
-<section class="project-section reveal">
-  <h3>Objetivos</h3>
-
-  <div class="project-grid">
-    <div class="project-text">
-      <p>
-        Diseñar un brazo robótico modular, escalable y documentado,
-        aplicando conocimientos de mecánica, electrónica y control.
-      </p>
-      <button class="btn-outline">Ampliar objetivos</button>
-    </div>
-
-    <div class="media-belt">
-      <div class="belt-track">
-        <img src="img/objetivo1.jpg">
-        <img src="img/objetivo2.jpg">
-        <img src="img/objetivo3.jpg">
-        <img src="img/objetivo1.jpg">
-      </div>
+    <div class="toggle">Ver más detalles</div>
+    <div class="toggle-content">
+      <p>Estudio de geometrías, cargas y materiales imprimibles.</p>
     </div>
   </div>
 </section>
 
-<!-- MATERIALES -->
-<section class="project-section reveal">
-  <h3>Materiales</h3>
-
-  <div class="project-grid">
-    <div class="project-text">
-      <p>
-        Se prevé el uso de PLA o PETG para las piezas estructurales,
-        junto con tornillería estándar, ejes metálicos, motores y
-        un microcontrolador para el control del sistema.
-      </p>
-      <button class="btn-outline">Lista completa</button>
-    </div>
-
-    <div class="media-belt">
-      <div class="belt-track">
-        <img src="img/material1.jpg">
-        <img src="img/material2.jpg">
-        <img src="img/material3.jpg">
-        <img src="img/material1.jpg">
-      </div>
-    </div>
+<section>
+  <div class="project-block">
+    <h2>Objetivos</h2>
+    <p>Construir un sistema robótico funcional, modular y documentado.</p>
   </div>
 </section>
 
-<!-- PRÓXIMOS PASOS -->
-<section class="project-section reveal">
-  <h3>Próximos pasos</h3>
+<section>
+  <div class="project-block">
+    <h2>Materiales</h2>
+    <p>PLA / PETG, servos, Arduino, fuentes, rodamientos y tornillería.</p>
+  </div>
+</section>
 
-  <div class="project-grid">
-    <div class="project-text">
-      <p>
-        Modelado 3D detallado, simulaciones de movimiento,
-        impresión de prototipos y primeras pruebas funcionales.
-      </p>
-      <button class="btn-outline">Planificación</button>
-    </div>
-
-    <div class="media-belt">
-      <div class="belt-track">
-        <img src="img/paso1.jpg">
-        <img src="img/paso2.jpg">
-        <img src="img/paso3.jpg">
-        <img src="img/paso1.jpg">
-      </div>
-    </div>
+<section>
+  <div class="project-block">
+    <h2>Próximos pasos</h2>
+    <p>Modelado 3D, impresión, montaje, pruebas y control.</p>
   </div>
 </section>
 
 <footer>
-© 2026 · Proyecto 01 · Portfolio personal
+© 2026 — Proyecto 01 · Portfolio
 </footer>
 
 <script>
-/* SCROLL REVEAL */
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add("visible");
-      observer.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.2 });
-
-document.querySelectorAll(".reveal")
-  .forEach(el => observer.observe(el));
-
-
 function toggleMenu() {
   document.getElementById("menu").classList.toggle("active");
 }
 
-function goHome(anchor = "") {
+function goHome(anchor="") {
   toggleMenu();
-  if (anchor) {
-    window.location.href = "index.html#" + anchor;
-  } else {
-    window.location.href = "index.html";
-  }
+  window.location.href = anchor ? "index.html#" + anchor : "index.html";
 }
-/* ACCORDION */
-    document.querySelectorAll('.accordion-item').forEach(item => {
-      item.addEventListener('click', () => {
-        item.classList.toggle('active');
-      });
-    });
 
+document.querySelectorAll('.toggle').forEach(t => {
+  t.addEventListener('click', () => t.classList.toggle('active'));
+});
+
+const sections = document.querySelectorAll('section');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+}, { threshold: 0.2 });
+
+sections.forEach(s => observer.observe(s));
 </script>
 
 </body>
